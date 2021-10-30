@@ -27,7 +27,7 @@ contract SchruteBuck {
         public
         returns (bool success)
     {
-        require(balanceOf[msg.sender] >= _value);
+        require(balanceOf[msg.sender] >= _value, "Not Enough Balance");
 
         balanceOf[msg.sender] -= _value;
         balanceOf[_to] += _value;
