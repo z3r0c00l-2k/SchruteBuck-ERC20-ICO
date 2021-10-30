@@ -7,7 +7,8 @@ const Header = () => {
     tokenPrice,
     balance,
     availableNetworks,
-    contractAddress,
+    icoContractAddress,
+    tokenContractAddress,
     network,
   } = useContext(AppContext);
 
@@ -26,8 +27,13 @@ const Header = () => {
         Connected Network :{' '}
         <span className='fw-bold text-capitalize'>{network}</span>
       </div>
-      <div className='text-center mb-2'>
-        Contract Address : <span className='fw-bold'>{contractAddress}</span>
+      <div className='text-center mb-2 d-flex align-items-center'>
+        SBUCK Token Contract Address :{' '}
+        <code className='fw-bold'>{tokenContractAddress}</code>
+      </div>
+      <div className='text-center mb-2 d-flex align-items-center'>
+        SBUCK ICO Contract Address :{' '}
+        <code className='fw-bold'>{icoContractAddress}</code>
       </div>
       {isLoading ? (
         <div id='loader'>

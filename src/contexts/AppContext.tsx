@@ -16,7 +16,8 @@ type ContextType = {
     numberOfTokens: number,
     callback?: (isSuccess: boolean, payload: any) => void
   ) => void;
-  contractAddress: string;
+  icoContractAddress: string;
+  tokenContractAddress: string;
   explorerUrl: string;
   network: string;
 };
@@ -34,7 +35,8 @@ const AppContextProvider: FC = ({ children }) => {
 
   const saleContractRef = useRef<Contract | null>(null);
   const tokenContractRef = useRef<Contract | null>(null);
-  const contractAddressRef = useRef('0x0');
+  const icoContractAddressRef = useRef('0x0');
+  const tokenContractAddressRef = useRef('0x0');
 
   const { accounts, address, explorerUrl, isWeb3, network, web3, networkId } =
     useWeb3();
@@ -50,7 +52,7 @@ const AppContextProvider: FC = ({ children }) => {
           TokenSaleContract.abi as any,
           saleNetworkData.address
         );
-        contractAddressRef.current = saleNetworkData.address;
+        icoContractAddressRef.current = saleNetworkData.address;
         saleContractRef.current = saleContract;
         // setupEventListeners(saleContract);
       } else {
@@ -60,11 +62,11 @@ const AppContextProvider: FC = ({ children }) => {
       const tokenNetworkData = (TokenContract.networks as any)[networkId!];
       if (tokenNetworkData) {
         // Assign contract
-
         const tokenContract = new web3.eth.Contract(
           TokenContract.abi as any,
           tokenNetworkData.address
         );
+        tokenContractAddressRef.current = tokenNetworkData.address;
         tokenContractRef.current = tokenContract;
         // setupEventListeners(saleContract);
       } else {
@@ -107,7 +109,7 @@ const AppContextProvider: FC = ({ children }) => {
       setBalance(currentBalance);
 
       const availableTokens = await tokenContractRef.current.methods
-        .balanceOf(contractAddressRef.current)
+        .balanceOf(icoContractAddressRef.current)
         .call();
       setTokensAvailable(parseFloat(availableTokens));
       setIsLoading(false);
@@ -159,7 +161,8 @@ const AppContextProvider: FC = ({ children }) => {
         tokenPrice,
         balance,
         buyTokens,
-        contractAddress: contractAddressRef.current,
+        icoContractAddress: icoContractAddressRef.current,
+        tokenContractAddress: tokenContractAddressRef.current,
         explorerUrl,
         network,
       }}
