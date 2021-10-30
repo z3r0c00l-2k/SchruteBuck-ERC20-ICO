@@ -9,6 +9,7 @@ type ContextType = {
   isLoading: boolean;
   tokenSold: number;
   tokensAvailable: number;
+  balanceTokens: number;
   availableNetworks: string[];
   tokenPrice: string | undefined;
   balance: number;
@@ -31,7 +32,7 @@ const AppContextProvider: FC = ({ children }) => {
   const [balance, setBalance] = useState(0);
   const [tokenPrice, setTokenPrice] = useState('0');
   const [tokenPriceInWei, setTokenPriceInWei] = useState(0);
-  const [tokensAvailable, setTokensAvailable] = useState(0);
+  const [balanceTokens, setBalanceTokens] = useState(0);
 
   const saleContractRef = useRef<Contract | null>(null);
   const tokenContractRef = useRef<Contract | null>(null);
@@ -111,7 +112,7 @@ const AppContextProvider: FC = ({ children }) => {
       const availableTokens = await tokenContractRef.current.methods
         .balanceOf(icoContractAddressRef.current)
         .call();
-      setTokensAvailable(parseFloat(availableTokens));
+      setBalanceTokens(parseFloat(availableTokens));
       setIsLoading(false);
     }
   };
@@ -156,7 +157,8 @@ const AppContextProvider: FC = ({ children }) => {
         address,
         isLoading,
         tokenSold,
-        tokensAvailable,
+        tokensAvailable: 7000000000,
+        balanceTokens,
         availableNetworks,
         tokenPrice,
         balance,

@@ -11,7 +11,7 @@ const SaleForm = () => {
     if (isSuccess) {
       setFormInput('');
       setTxnLink(`${explorerUrl}/tx/${payload.hash}`);
-      setTimeout(() => setTxnLink(''), 5000);
+      setTimeout(() => setTxnLink(''), 15000);
     }
   };
 
